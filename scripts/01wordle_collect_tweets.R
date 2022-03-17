@@ -8,14 +8,21 @@ source(here("scripts","helper_functions_wordle.R"))
 ###--- Set up 
 # 1st of january was wordle 195
 wordle_ids <- 100:270
-n <- 1000# Number of tweets per day/wordle id
+n_tweets <- 10000# Number of tweets per day/wordle id
+
+###--- 
+done <- list.files(here("data"))
+done <- done[str_detect(done,".RDS")]
+done <- str_remove(done,"wordle_")
+done <- as.integer(str_remove(done,".RDS"))
+wordle_ids <- wordle_ids[!wordle_ids %in% done]
 
 
 ###--- Loop over ids/days
 
-for(i in wordle_ids[1:3]) {
+for(i in wordle_ids) {
   
-  tweets <- query_twitter(i,n)
+  tweets <- query_twitter(i,n_tweets)
   valid_wordle <- is_valid_wordle_tweet(tweets$text,i)
   tweets <- tweets[valid_wordle == TRUE,]
   tweets <- 
