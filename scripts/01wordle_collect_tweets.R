@@ -9,7 +9,8 @@ source(here("scripts","helper_functions_wordle.R"))
 # 1st of january was wordle 195
 wordle_ids <- 100:270
 n_tweets <- 10000# Number of tweets per day/wordle id
-
+start_tweets =  "2021-09-20T00:00:00Z"
+end_tweets = "2022-03-17T00:00:00Z"
 ###--- 
 done <- list.files(here("data"))
 done <- done[str_detect(done,".RDS")]
@@ -22,7 +23,7 @@ wordle_ids <- wordle_ids[!wordle_ids %in% done]
 
 for(i in wordle_ids) {
   
-  tweets <- query_twitter(i,n_tweets)
+  tweets <- query_twitter(i,n_tweets,start_tweets,end_tweets)
   valid_wordle <- is_valid_wordle_tweet(tweets$text,i)
   tweets <- tweets[valid_wordle == TRUE,]
   tweets <- 
@@ -42,3 +43,11 @@ for(i in wordle_ids) {
 }
 
 
+
+
+i_now <- 280
+now <- as.Date("2022-03-26")
+start <- as.Date("2021-12-15")
+
+diff <- now - start
+i_start <- i_now - as.numeric(diff)

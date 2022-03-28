@@ -4,12 +4,12 @@
 library(academictwitteR)
 b_token <- readRDS(here("others","academic_bearer_token.RDS"))
 
-query_twitter <- function(id, n) {
+query_twitter <- function(id, n,start_tweets,end_tweets) {
   suppressWarnings(
   tibble(academictwitteR::get_all_tweets(query = paste("Wordle", id," "),
                                          exact_phrase = TRUE,
-                                         start_tweets =  "2021-09-20T00:00:00Z",
-                                         end_tweets = "2022-03-17T00:00:00Z",
+                                         start_tweets =  start_tweets,
+                                         end_tweets = end_tweets,
                                          bearer_token = b_token,
                                          n = n, 
                                          is_retweet = FALSE, 
